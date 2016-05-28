@@ -54,6 +54,15 @@ public class DialogChainer {
 				nextMessageCurrentGroup(partner,me,msg);
 			}
 		}
+		
+		//save last grouped without next message
+		if(me.isEmpty()) {
+			FbMessage grouped = groupMessages(partner);
+			db.save(grouped);
+		} else {
+			FbMessage grouped = groupMessages(me);
+			db.save(grouped);
+		}
 	}
 	
 	private void nextMessageCurrentGroup(List<FbMessage> currentGroup,List<FbMessage> otherGroup,FbMessage currentMessage) {

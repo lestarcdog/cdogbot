@@ -35,7 +35,7 @@ public class PostgresDb {
 	}
 	
 	public void save(FbMessage message) {
-		log.info("Saving {}'s message {}",message.getSender(),message.getMessage());
+		log.info("id {} nextid {} saving {}",message.getId(),message.getNextMessageId(),message.getSender());
 	}
 
 	public void tearDown() throws SQLException {
