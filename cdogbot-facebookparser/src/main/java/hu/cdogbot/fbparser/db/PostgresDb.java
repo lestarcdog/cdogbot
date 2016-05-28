@@ -9,6 +9,8 @@ import org.postgresql.Driver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import hu.cdogbot.fbparser.model.FbMessage;
+
 public class PostgresDb {
 
 	private static final Logger log = LoggerFactory.getLogger(PostgresDb.class);
@@ -30,6 +32,10 @@ public class PostgresDb {
 		connection = driver.connect(url, props);
 		
 		log.info("Starting db up on {}",url);
+	}
+	
+	public void save(FbMessage message) {
+		log.info("Saving {}'s message {}",message.getSender(),message.getMessage());
 	}
 
 	public void tearDown() throws SQLException {

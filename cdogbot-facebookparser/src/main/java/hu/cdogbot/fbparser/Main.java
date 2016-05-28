@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import hu.cdogbot.fbparser.FbMessagesParser.FbThreadIterator;
 import hu.cdogbot.fbparser.db.PostgresDb;
 import hu.cdogbot.fbparser.model.FbThread;
+import hu.cdogbot.fbparser.model.IdSequence;
 
 public class Main {
 
@@ -22,9 +23,10 @@ public class Main {
 
 			FbThreadIterator threads = new FbMessagesParser(null).iterator();
 
+			IdSequence seq = new IdSequence();
 			while (threads.hasNext()) {
 				FbThread thread = threads.next();
-
+				new DialogChainer(seq, thread, db).persistRequestReply();;
 			}
 		} finally {
 			if (db != null) {

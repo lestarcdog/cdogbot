@@ -35,9 +35,9 @@ public class FbThread implements Iterable<FbMessage> {
 		Collections.reverse(messages);
 
 		for (Element message : messages) {
-			String sender = message.select(".user").text();
+			String sender = message.select(".user").text().toLowerCase();
 			LocalDateTime timestamp = parseFacebookStupidTimeFormat(message.select(".meta").text());
-			String msg = message.nextElementSibling().text();
+			String msg = message.nextElementSibling().text().toLowerCase();
 			fbMessages.add(new FbMessage(sender, timestamp, msg));
 		}
 	}

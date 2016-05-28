@@ -19,5 +19,17 @@ public class FbThreadTest {
 
 		// format.parse(time);
 	}
+	
+	@Test
+	public void asdffasd() {
+		long i = 5L;
+		se(i);
+		System.out.println(i);
+		
+	}
+	
+	private void se(long x) {
+		x += 2;
+	}
 
 }
