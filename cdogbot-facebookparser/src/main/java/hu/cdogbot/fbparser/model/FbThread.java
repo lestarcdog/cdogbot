@@ -14,16 +14,23 @@ import org.jsoup.select.Elements;
 
 public class FbThread implements Iterable<FbMessage> {
 	private static final int THREAD_DIV_LENGTH = "<div class=\"thread\">".length();
-	private static final String TZ_END = " UTC+02";
-	private final List<String> parties;
-	private List<FbMessage> fbMessages = new LinkedList<>();
-
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM dd, yyyy 'at' h:mma")
+	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy 'at' h:mma")
 			.withLocale(Locale.ENGLISH);
+
+	private static final String TZ_END1 = " UTC+02";
+	private static final String TZ_END2 = " UTC+01";
+	private final List<String> parties;
+	private final Element thread;
+
+	private List<FbMessage> fbMessages = new LinkedList<>();
 
 	public FbThread(Element element) {
 		this.parties = extractThreadParties(element.toString());
-		Elements messages = element.select(".message");
+		this.thread = element;
+	}
+
+	public void loadUpData() {
+		Elements messages = thread.select(".message");
 		// ascending with time
 		Collections.reverse(messages);
 
@@ -33,11 +40,10 @@ public class FbThread implements Iterable<FbMessage> {
 			String msg = message.nextElementSibling().text();
 			fbMessages.add(new FbMessage(sender, timestamp, msg));
 		}
-
 	}
 
 	private LocalDateTime parseFacebookStupidTimeFormat(String time) {
-		String transformed = time.replace(TZ_END, "").replace("am", "AM").replace("pm", "PM");
+		String transformed = time.replace(TZ_END1, "").replace(TZ_END2, "").replace("am", "AM").replace("pm", "PM");
 		return formatter.parse(transformed, LocalDateTime::from);
 	}
 
