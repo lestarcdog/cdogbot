@@ -32,10 +32,15 @@ public class PostgresDb {
 		connection = driver.connect(url, props);
 		
 		log.info("Starting db up on {}",url);
+		connection.setAutoCommit(false);
 	}
 	
 	public void save(FbMessage message) {
 		log.info("id {} nextid {} saving {}",message.getId(),message.getNextMessageId(),message.getSender());
+	}
+	
+	public void commit() throws SQLException {
+		connection.commit();
 	}
 
 	public void tearDown() throws SQLException {

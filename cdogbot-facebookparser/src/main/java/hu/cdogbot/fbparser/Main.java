@@ -28,6 +28,8 @@ public class Main {
 				FbThread thread = threads.next();
 				new DialogChainer(seq, thread, db).persistRequestReply();;
 			}
+			
+			db.commit();
 		} finally {
 			if (db != null) {
 				db.tearDown();
