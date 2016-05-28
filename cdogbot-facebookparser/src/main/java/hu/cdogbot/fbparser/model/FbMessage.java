@@ -1,11 +1,13 @@
 package hu.cdogbot.fbparser.model;
 
+import java.time.LocalDateTime;
+
 public class FbMessage {
 	private final String sender;
-	private final String timestamp;
+	private final LocalDateTime timestamp;
 	private final String message;
 
-	public FbMessage(String sender, String timestamp, String message) {
+	public FbMessage(String sender, LocalDateTime timestamp, String message) {
 		this.sender = sender;
 		this.timestamp = timestamp;
 		this.message = message;
@@ -15,7 +17,7 @@ public class FbMessage {
 		return sender;
 	}
 
-	public String getTimestamp() {
+	public LocalDateTime getTimestamp() {
 		return timestamp;
 	}
 
