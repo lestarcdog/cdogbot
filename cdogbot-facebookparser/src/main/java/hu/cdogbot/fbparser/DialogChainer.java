@@ -1,5 +1,6 @@
 package hu.cdogbot.fbparser;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +29,7 @@ public class DialogChainer {
 		
 	}
 
-	public void persistRequestReply() {
+	public void persistRequestReply() throws SQLException {
 		Iterator<FbMessage> it = thread.iterator();
 		
 		List<FbMessage> partner = new ArrayList<>();
@@ -65,7 +66,7 @@ public class DialogChainer {
 		}
 	}
 	
-	private void nextMessageCurrentGroup(List<FbMessage> currentGroup,List<FbMessage> otherGroup,FbMessage currentMessage) {
+	private void nextMessageCurrentGroup(List<FbMessage> currentGroup,List<FbMessage> otherGroup,FbMessage currentMessage) throws SQLException {
 		//they said something
 		if(!currentGroup.isEmpty()) {
 			currentMessage.setId(currentGroup.get(0).getId());
@@ -73,10 +74,11 @@ public class DialogChainer {
 		} else {
 			//dialog change
 			FbMessage grouped = groupMessages(otherGroup);
-			
-			chainMessages(grouped, currentMessage);
+			if(isMessageValid(grouped)) {
+				chainMessages(grouped, currentMessage);
+				db.save(grouped);
+			}
 			currentGroup.add(currentMessage);
-			db.save(grouped);
 			otherGroup.clear();
 
 		}
@@ -95,5 +97,10 @@ public class DialogChainer {
 		
 		return grouped;
 	}
+	
+	private boolean isMessageValid(FbMessage message) {
+		return message != null && !message.getMessage().isEmpty();
+	}
+	
 
 }

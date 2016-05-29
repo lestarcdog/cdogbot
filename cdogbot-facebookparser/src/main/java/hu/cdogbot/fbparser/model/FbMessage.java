@@ -1,6 +1,9 @@
 package hu.cdogbot.fbparser.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+
+import hu.cdogbot.fbparser.Config;
 
 public class FbMessage {
 	@Override
@@ -10,6 +13,7 @@ public class FbMessage {
 
 	private Long id;
 	private final String sender;
+	private final boolean senderMe;
 	private final LocalDateTime timestamp;
 	private final String message;
 	private Long nextMessageId;
@@ -18,6 +22,11 @@ public class FbMessage {
 		this.sender = sender;
 		this.timestamp = timestamp;
 		this.message = message;
+		this.senderMe = sender.equals(Config.ME);
+	}
+
+	public boolean isSenderMe() {
+		return senderMe;
 	}
 
 	public Long getId() {
@@ -42,6 +51,10 @@ public class FbMessage {
 
 	public LocalDateTime getTimestamp() {
 		return timestamp;
+	}
+	
+	public long getTimestampAsLong() {
+		return timestamp.toInstant(ZoneId.of("Europe/Budapest").getRules().getOffset(timestamp)).toEpochMilli();
 	}
 
 	public String getMessage() {
