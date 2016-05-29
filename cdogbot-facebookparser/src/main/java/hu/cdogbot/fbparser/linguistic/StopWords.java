@@ -35,6 +35,10 @@ public class StopWords {
 	}
 	
 	public static String stripNoneLatin(String str) {
-		return stripSmiley(str).replaceAll("[^éáűúőóüöíÉÁŰÚŐÓÜÖÍ\\p{Alnum}\\s]*", "").trim();
+		return stripDoubleSpaces(stripSmiley(str.toLowerCase()).replaceAll("[^éáűúőóüöíÉÁŰÚŐÓÜÖÍ\\p{Alnum}\\s]*", "").trim());
+	}
+	
+	public static String stripDoubleSpaces(String str) {
+		return str.replaceAll("\\s+", " ");
 	}
 }

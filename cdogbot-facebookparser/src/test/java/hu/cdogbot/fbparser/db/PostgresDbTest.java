@@ -21,11 +21,25 @@ public class PostgresDbTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			db.rollback();
+			//db.commit();
+			db.tearDown();
+		}
+	}
+	
+	@Test
+	public void findResponse() throws SQLException {
+		PostgresDb db = new PostgresDb();
+		try {
+			db.startUp("jdbc:postgresql://localhost:5432/cdogbot", "postgres", "postgres");
+			System.out.println(db.findResponse("suli"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
 			//db.rollback();
 			db.commit();
 			db.tearDown();
 		}
-
 	}
 
 }
