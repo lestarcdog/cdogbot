@@ -2,7 +2,7 @@ package hu.cdogbot.fbparser.model;
 
 public class IdSequence {
 
-	private long id = 0;
+	private long id = 1;
 	
 	public long next() {
 		return id++;

@@ -19,8 +19,8 @@ public class PostgresDb {
 	private static final Driver driver = new Driver();
 	private Connection connection = null;
 
-	private static final String INSERT_FB_MESSAGE = "INSERT INTO chat(id,message,sender,is_sender_me,sent_time) " +
-													"VALUES(?,?::tsvector,?,?,?)";
+	private static final String INSERT_FB_MESSAGE = "INSERT INTO chat(id,message,sender,is_sender_me,sent_time,next_message_id) "
+			+ "VALUES(?,?::tsvector,?,?,?,?)";
 
 	public PostgresDb() {
 	}
@@ -41,15 +41,20 @@ public class PostgresDb {
 	}
 
 	public void save(FbMessage message) throws SQLException {
-		log.info("id: {} user: {} message: {}", message.getId(), message.getSender(),message.getMessage());
-		
+		log.info("id: {} user: {} message: {}", message.getId(), message.getSender(), message.getMessage());
+
 		PreparedStatement stmt = connection.prepareStatement(INSERT_FB_MESSAGE);
 		stmt.setLong(1, message.getId());
 		stmt.setString(2, message.getMessage());
 		stmt.setString(3, message.getSender());
 		stmt.setBoolean(4, message.isSenderMe());
 		stmt.setTimestamp(5, new Timestamp(message.getTimestampAsLong()));
-		
+		if (message.getNextMessageId() != null) {
+			stmt.setLong(6, message.getNextMessageId());
+		} else {
+			stmt.setNull(6, java.sql.Types.INTEGER);
+		}
+
 		stmt.executeUpdate();
 	}
 

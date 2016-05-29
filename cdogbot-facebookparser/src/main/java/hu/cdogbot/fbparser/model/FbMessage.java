@@ -16,7 +16,7 @@ public class FbMessage {
 	private final boolean senderMe;
 	private final LocalDateTime timestamp;
 	private final String message;
-	private Long nextMessageId;
+	private Long nextMessageId = null;
 	
 	public FbMessage(String sender, LocalDateTime timestamp, String message) {
 		this.sender = sender;

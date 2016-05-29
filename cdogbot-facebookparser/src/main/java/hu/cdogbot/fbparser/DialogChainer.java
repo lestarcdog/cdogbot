@@ -36,8 +36,9 @@ public class DialogChainer {
 		List<FbMessage> groupedMessages = groupMessages(it);
 		if(!groupedMessages.isEmpty()) {
 			List<FbMessage> chainedMessages = chainMessages(groupedMessages);
-			for (FbMessage message : chainedMessages) {
-				db.save(message);
+			//reverse insert chain messages because of foreign key constraints
+			for (int i = chainedMessages.size() - 1; i>=0; i--) {
+				db.save(chainedMessages.get(i));
 			}
 		}		
 	}
@@ -67,7 +68,6 @@ public class DialogChainer {
 		while(it.hasNext() && partner.isEmpty()) {
 			FbMessage msg = it.next();
 			if(!msg.getSender().equals(Config.ME)) {
-				msg.setId(seq.next());
 				partner.add(msg);
 			}
 		}

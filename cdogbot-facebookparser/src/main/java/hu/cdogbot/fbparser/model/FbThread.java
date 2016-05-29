@@ -40,7 +40,9 @@ public class FbThread implements Iterable<FbMessage> {
 			String sender = message.select(".user").text().toLowerCase();
 			LocalDateTime timestamp = parseFacebookStupidTimeFormat(message.select(".meta").text());
 			String msg = StopWords.stripNoneLatin(message.nextElementSibling().text().toLowerCase());
-			fbMessages.add(new FbMessage(sender, timestamp, msg));
+			if (!msg.isEmpty()) {
+				fbMessages.add(new FbMessage(sender, timestamp, msg));
+			}
 		}
 	}
 
