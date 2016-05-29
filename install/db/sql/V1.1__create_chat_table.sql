@@ -1,7 +1,7 @@
 CREATE TABLE chat
 (
    id serial,
-   message character varying(2000) NOT NULL,
+   message text NOT NULL,
    keyword tsvector NOT NULL, 
    sender character varying(70) NOT NULL, 
    is_sender_me boolean NOT NULL, 

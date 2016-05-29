@@ -2,6 +2,7 @@ package hu.cdogbot.fbparser;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class Main {
 			db = new PostgresDb();
 			db.startUp(args[0], args[1], args[2]);
 
-			FbThreadIterator threads = new FbMessagesParser(null).iterator();
+			FbThreadIterator threads = new FbMessagesParser(Arrays.asList("niki nagy")).iterator();
 
 			IdSequence seq = new IdSequence();
 			while (threads.hasNext()) {

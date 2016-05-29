@@ -32,7 +32,7 @@ public class PostgresDbTest {
 		PostgresDb db = new PostgresDb();
 		try {
 			db.startUp("jdbc:postgresql://localhost:5432/cdogbot", "postgres", "postgres");
-			System.out.println(db.findResponse("suli"));
+			System.out.println(db.findResponse("szeretlek drágám"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
