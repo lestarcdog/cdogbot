@@ -3,6 +3,7 @@ package hu.cdogbot.fbparser;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -32,8 +33,35 @@ public class DialogChainer {
 	public void persistRequestReply() throws SQLException {
 		Iterator<FbMessage> it = thread.iterator();
 		
+		List<FbMessage> groupedMessages = groupMessages(it);
+		if(!groupedMessages.isEmpty()) {
+			List<FbMessage> chainedMessages = chainMessages(groupedMessages);
+			for (FbMessage message : chainedMessages) {
+				db.save(message);
+			}
+		}		
+	}
+	
+	private List<FbMessage> chainMessages(List<FbMessage> messages) {
+		Iterator<FbMessage> it = messages.iterator();
+		FbMessage prev = it.next();
+		prev.setId(seq.next());
+		
+		while(it.hasNext()) {
+			FbMessage current = it.next();
+			current.setId(seq.next());
+			prev.setNextMessageId(current.getId());
+			
+			prev = current;
+		}
+		
+		return messages;
+	}
+	
+	private List<FbMessage> groupMessages(Iterator<FbMessage> it) {
 		List<FbMessage> partner = new ArrayList<>();
 		List<FbMessage> me = new ArrayList<>();
+		List<FbMessage> grouped = new LinkedList<>();
 		
 		//find first who is not me
 		while(it.hasNext() && partner.isEmpty()) {
@@ -49,46 +77,33 @@ public class DialogChainer {
 			FbMessage msg = it.next();
 			//i said something
 			if(msg.getSender().equals(Config.ME)) {
-				nextMessageCurrentGroup(me,partner,msg);
+				if(!me.isEmpty()) {
+					me.add(msg);
+				} else {
+					grouped.add(groupMessages(partner));
+					partner.clear();
+					me.add(msg);
+				}
 			} else {
 				//they said something
-				nextMessageCurrentGroup(partner,me,msg);
+				if(!partner.isEmpty()) {
+					partner.add(msg);
+				} else {
+					grouped.add(groupMessages(me));
+					me.clear();
+					partner.add(msg);
+				}	
 			}
 		}
 		
-		//save last grouped without next message
-		if(me.isEmpty()) {
-			FbMessage grouped = groupMessages(partner);
-			db.save(grouped);
-		} else {
-			FbMessage grouped = groupMessages(me);
-			db.save(grouped);
+		//save my last grouped without next message
+		if(!me.isEmpty()) {
+			grouped.add(groupMessages(me));
 		}
+		
+		return grouped;
 	}
-	
-	private void nextMessageCurrentGroup(List<FbMessage> currentGroup,List<FbMessage> otherGroup,FbMessage currentMessage) throws SQLException {
-		//they said something
-		if(!currentGroup.isEmpty()) {
-			currentMessage.setId(currentGroup.get(0).getId());
-			currentGroup.add(currentMessage);
-		} else {
-			//dialog change
-			FbMessage grouped = groupMessages(otherGroup);
-			if(isMessageValid(grouped)) {
-				chainMessages(grouped, currentMessage);
-				db.save(grouped);
-			}
-			currentGroup.add(currentMessage);
-			otherGroup.clear();
 
-		}
-	}
-	
-	private void chainMessages(FbMessage prev, FbMessage next) {
-		//set up ids
-		next.setId(seq.next());
-		prev.setNextMessageId(next.getId());
-	}
 	
 	private FbMessage groupMessages(List<FbMessage> groupedMessages) {
 		StringBuilder builder = groupedMessages.stream().collect(StringBuilder::new, (bldr, str) -> bldr.append(str.getMessage()+" "), (b1,b2) -> b1.append(b2.toString()));

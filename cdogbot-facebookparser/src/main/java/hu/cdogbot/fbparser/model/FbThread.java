@@ -12,6 +12,8 @@ import java.util.Locale;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import hu.cdogbot.fbparser.linguistic.StopWords;
+
 public class FbThread implements Iterable<FbMessage> {
 	private static final int THREAD_DIV_LENGTH = "<div class=\"thread\">".length();
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, MMMM d, yyyy 'at' h:mma")
@@ -37,7 +39,7 @@ public class FbThread implements Iterable<FbMessage> {
 		for (Element message : messages) {
 			String sender = message.select(".user").text().toLowerCase();
 			LocalDateTime timestamp = parseFacebookStupidTimeFormat(message.select(".meta").text());
-			String msg = message.nextElementSibling().text().toLowerCase();
+			String msg = StopWords.stripNoneLatin(message.nextElementSibling().text().toLowerCase());
 			fbMessages.add(new FbMessage(sender, timestamp, msg));
 		}
 	}

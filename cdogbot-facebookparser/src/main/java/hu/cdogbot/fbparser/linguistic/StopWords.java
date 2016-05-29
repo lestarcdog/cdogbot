@@ -28,6 +28,13 @@ public class StopWords {
 		} else {
 			return replaced;
 		}
-		
+	}
+	
+	public static String stripSmiley(String str) {
+		return str.replaceAll("(:D|:d|:p|:P)*", "");
+	}
+	
+	public static String stripNoneLatin(String str) {
+		return stripSmiley(str).replaceAll("[^éáűúőóüöíÉÁŰÚŐÓÜÖÍ\\p{Alnum}\\s]*", "").trim();
 	}
 }

@@ -41,7 +41,7 @@ public class PostgresDb {
 	}
 
 	public void save(FbMessage message) throws SQLException {
-		log.info("id {} nextid {} saving {}", message.getId(), message.getNextMessageId(), message.getSender());
+		log.info("id: {} user: {} message: {}", message.getId(), message.getSender(),message.getMessage());
 		
 		PreparedStatement stmt = connection.prepareStatement(INSERT_FB_MESSAGE);
 		stmt.setLong(1, message.getId());

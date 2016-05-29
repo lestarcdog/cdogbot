@@ -29,8 +29,8 @@ public class Main {
 				new DialogChainer(seq, thread, db).persistRequestReply();;
 			}
 			
-			db.commit();
 		} finally {
+			db.commit();
 			if (db != null) {
 				db.tearDown();
 			}
