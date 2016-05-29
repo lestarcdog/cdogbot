@@ -8,20 +8,24 @@ import hu.cdogbot.fbparser.Config;
 public class FbMessage {
 	@Override
 	public String toString() {
-		return "FbMessage [sender=" + sender + ", timestamp=" + timestamp + ", message=" + message + "]";
+		return "FbMessage [sender=" + sender + ", timestamp=" + timestamp + ", message=" + processedMessage + "]";
 	}
 
 	private Long id;
 	private final String sender;
 	private final boolean senderMe;
 	private final LocalDateTime timestamp;
-	private final String message;
+	private final String rawMessage;
+
+
+	private final String processedMessage;
 	private Long nextMessageId = null;
 	
-	public FbMessage(String sender, LocalDateTime timestamp, String message) {
+	public FbMessage(String sender, LocalDateTime timestamp,String rawMessage, String processedMessage) {
 		this.sender = sender;
 		this.timestamp = timestamp;
-		this.message = message;
+		this.rawMessage = rawMessage;
+		this.processedMessage = processedMessage;
 		this.senderMe = sender.equals(Config.ME);
 	}
 
@@ -31,6 +35,10 @@ public class FbMessage {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public String getRawMessage() {
+		return rawMessage;
 	}
 
 	public void setId(Long id) {
@@ -57,8 +65,8 @@ public class FbMessage {
 		return timestamp.toInstant(ZoneId.of("Europe/Budapest").getRules().getOffset(timestamp)).toEpochMilli();
 	}
 
-	public String getMessage() {
-		return message;
+	public String getProcessedMessage() {
+		return processedMessage;
 	}
 
 }

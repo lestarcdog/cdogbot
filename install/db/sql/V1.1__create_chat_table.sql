@@ -1,7 +1,8 @@
 CREATE TABLE chat
 (
-   id serial, 
-   message tsvector NOT NULL, 
+   id serial,
+   message character varying(2000) NOT NULL,
+   keyword tsvector NOT NULL, 
    sender character varying(70) NOT NULL, 
    is_sender_me boolean NOT NULL, 
    sent_time timestamp without time zone, 
@@ -12,5 +13,4 @@ CREATE TABLE chat
 ) 
 WITH (
   OIDS = FALSE
-)
-;
+);

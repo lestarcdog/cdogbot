@@ -106,15 +106,17 @@ public class DialogChainer {
 
 	
 	private FbMessage groupMessages(List<FbMessage> groupedMessages) {
-		StringBuilder builder = groupedMessages.stream().collect(StringBuilder::new, (bldr, str) -> bldr.append(str.getMessage()+" "), (b1,b2) -> b1.append(b2.toString()));
-		FbMessage grouped = new FbMessage(groupedMessages.get(0).getSender(), groupedMessages.get(0).getTimestamp(), builder.toString());
+		StringBuilder processedMsg = groupedMessages.stream().collect(StringBuilder::new, (bldr, str) -> bldr.append(str.getProcessedMessage()+" "), (b1,b2) -> b1.append(b2.toString()));
+		StringBuilder rawMsg = groupedMessages.stream().collect(StringBuilder::new, (bldr, str) -> bldr.append(str.getRawMessage()+" "), (b1,b2) -> b1.append(b2.toString()));
+		
+		FbMessage grouped = new FbMessage(groupedMessages.get(0).getSender(), groupedMessages.get(0).getTimestamp(),rawMsg.toString(), processedMsg.toString());
 		grouped.setId(groupedMessages.get(0).getId());
 		
 		return grouped;
 	}
 	
 	private boolean isMessageValid(FbMessage message) {
-		return message != null && !message.getMessage().isEmpty();
+		return message != null && !message.getProcessedMessage().isEmpty();
 	}
 	
 
