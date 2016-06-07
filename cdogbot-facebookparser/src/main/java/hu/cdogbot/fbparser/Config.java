@@ -6,5 +6,6 @@ public class Config {
 
 	public static final String ME = "csaba lestár";
 //	public static final String MESSAGES_HTML_PATH = "C:\\Users\\cdog\\Downloads\\facebook-csabalestar\\html\\messages_small.html";
-	public static final String MESSAGES_HTML_PATH = "C:\\Users\\cdog\\Downloads\\facebook-csabalestar\\html\\messages.htm";
+public static final String MESSAGES_HTML_PATH = "C:\\Users\\cdog\\Downloads\\facebook-csabalestar\\html\\messages.htm";
+
 }

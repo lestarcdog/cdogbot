@@ -1,11 +1,10 @@
 package hu.cdogbot.fbparser.db;
 
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-
+import hu.cdogbot.fbparser.model.FbMessage;
 import org.junit.Test;
 
-import hu.cdogbot.fbparser.model.FbMessage;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class PostgresDbTest {
 
@@ -37,9 +36,9 @@ public class PostgresDbTest {
 			e.printStackTrace();
 		} finally {
 			//db.rollback();
-			db.commit();
-			db.tearDown();
-		}
+            //db.commit();
+            db.tearDown();
+        }
 	}
 
 }

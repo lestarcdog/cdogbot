@@ -1,20 +1,13 @@
 package hu.cdogbot.fbparser.db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Properties;
-
+import hu.cdogbot.fbparser.linguistic.StopWords;
+import hu.cdogbot.fbparser.model.FbMessage;
 import org.postgresql.Driver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import hu.cdogbot.fbparser.linguistic.StopWords;
-import hu.cdogbot.fbparser.model.FbMessage;
+import java.sql.*;
+import java.util.*;
 
 public class PostgresDb {
 
@@ -30,8 +23,8 @@ public class PostgresDb {
 			+ " WHERE c.is_sender_me = FALSE " // not said by me 
 			+ " AND c.keyword @@ ?::tsquery " //
 			+ " AND c.next_message_id IS NOT NULL " //we have a response
-			+ " AND resp.id=c.next_message_id " 
-			+ " ORDER BY rank DESC LIMIT 1";
+        + " AND resp.id=c.next_message_id "
+        + " ORDER BY rank DESC LIMIT 3";
 
 	public PostgresDb() {
 	}
@@ -69,21 +62,26 @@ public class PostgresDb {
 
 		stmt.executeUpdate();
 	}
-	
-	public Optional<String> findResponse(String rawQuestion) throws SQLException {
-		log.info("Find response for {}",rawQuestion);
-		String question = parseToTsVectorOr(rawQuestion);
-		
-		PreparedStatement stmt = connection.prepareStatement(FIND_RESPONSE);
+
+    public Optional<List<String>> findResponse(String rawQuestion) throws SQLException {
+        log.info("Find response for '{}'", rawQuestion);
+        String question = parseToTsVectorOr(rawQuestion);
+
+        PreparedStatement stmt = connection.prepareStatement(FIND_RESPONSE);
 		stmt.setString(1, question);
 		stmt.setString(2, question);
 		
 		ResultSet resultSet = stmt.executeQuery();
-		if(resultSet.next()) {
-			return Optional.of(resultSet.getString("response"));
-		} else {
-			return Optional.empty();
-		}
+        List<String> answers = new ArrayList<>();
+        while (resultSet.next()) {
+            answers.add(resultSet.getString("response"));
+        }
+        if (answers.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(answers);
+        }
+
 	}
 	
 	private String parseToTsVectorOr(String msg) {
