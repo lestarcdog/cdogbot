@@ -1,7 +1,9 @@
 /target/
 target
 .settings/*
-!.settings/.jsdtscope
+.settings/.jsdtscope
 .project
 .classpath
 /.settings/
+.idea/
+**/*.iml
