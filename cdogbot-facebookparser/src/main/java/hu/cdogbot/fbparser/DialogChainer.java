@@ -1,18 +1,17 @@
 package hu.cdogbot.fbparser;
 
+import hu.cdogbot.fbparser.db.PostgresDb;
+import hu.cdogbot.fbparser.model.FbMessage;
+import hu.cdogbot.fbparser.model.FbThread;
+import hu.cdogbot.fbparser.model.IdSequence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import hu.cdogbot.fbparser.db.PostgresDb;
-import hu.cdogbot.fbparser.model.FbMessage;
-import hu.cdogbot.fbparser.model.FbThread;
-import hu.cdogbot.fbparser.model.IdSequence;
 
 public class DialogChainer {
 	
@@ -67,8 +66,8 @@ public class DialogChainer {
 		//find first who is not me
 		while(it.hasNext() && partner.isEmpty()) {
 			FbMessage msg = it.next();
-			if(!msg.getSender().equals(Config.ME)) {
-				partner.add(msg);
+            if (!msg.getSender().equals(ModelConfig.ME)) {
+                partner.add(msg);
 			}
 		}
 		
@@ -76,8 +75,8 @@ public class DialogChainer {
 		while(it.hasNext()) {
 			FbMessage msg = it.next();
 			//i said something
-			if(msg.getSender().equals(Config.ME)) {
-				if(!me.isEmpty()) {
+            if (msg.getSender().equals(ModelConfig.ME)) {
+                if(!me.isEmpty()) {
 					me.add(msg);
 				} else {
 					grouped.add(groupMessages(partner));

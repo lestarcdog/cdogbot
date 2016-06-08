@@ -13,9 +13,26 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cdogbot</groupId>
+                <artifactId>cdogbot-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cdogbot</groupId>
+                <artifactId>cdogbot-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     
 	<modules>
 		<module>cdogbot-server</module>
 		<module>cdogbot-facebookparser</module>
+        <module>cdogbot-db</module>
+        <module>cdogbot-model</module>
 	</modules>
 </project>

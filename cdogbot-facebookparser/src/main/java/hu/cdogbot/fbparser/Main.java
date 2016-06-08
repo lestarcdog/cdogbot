@@ -1,16 +1,15 @@
 package hu.cdogbot.fbparser;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.Arrays;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import hu.cdogbot.fbparser.FbMessagesParser.FbThreadIterator;
 import hu.cdogbot.fbparser.db.PostgresDb;
 import hu.cdogbot.fbparser.model.FbThread;
 import hu.cdogbot.fbparser.model.IdSequence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Arrays;
 
 public class Main {
 
