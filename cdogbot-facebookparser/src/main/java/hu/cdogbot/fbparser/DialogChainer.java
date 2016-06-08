@@ -1,6 +1,6 @@
 package hu.cdogbot.fbparser;
 
-import hu.cdogbot.fbparser.db.PostgresDb;
+import hu.cdogbot.fbparser.db.LocalPostgresDb;
 import hu.cdogbot.fbparser.model.FbMessage;
 import hu.cdogbot.fbparser.model.FbThread;
 import hu.cdogbot.fbparser.model.IdSequence;
@@ -18,11 +18,11 @@ public class DialogChainer {
 	private static final Logger log = LoggerFactory.getLogger(DialogChainer.class);
 	
 	private final FbThread thread;
-	private final PostgresDb db;
-	private final IdSequence seq;
-	
-	public DialogChainer(IdSequence seq, FbThread thread,PostgresDb db) {
-		this.thread = thread;
+    private final LocalPostgresDb db;
+    private final IdSequence seq;
+
+    public DialogChainer(IdSequence seq, FbThread thread, LocalPostgresDb db) {
+        this.thread = thread;
 		this.db = db;
 		this.seq = seq;
 		log.info("Parsing thread {}", thread.getParties());

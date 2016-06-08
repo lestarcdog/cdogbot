@@ -1,7 +1,7 @@
 package hu.cdogbot.fbparser;
 
 import hu.cdogbot.fbparser.FbMessagesParser.FbThreadIterator;
-import hu.cdogbot.fbparser.db.PostgresDb;
+import hu.cdogbot.fbparser.db.LocalPostgresDb;
 import hu.cdogbot.fbparser.model.FbThread;
 import hu.cdogbot.fbparser.model.IdSequence;
 import org.slf4j.Logger;
@@ -16,10 +16,10 @@ public class Main {
 	private static final Logger log = LoggerFactory.getLogger(Main.class);
 
 	public static void main(String[] args) throws IOException, SQLException {
-		PostgresDb db = null;
-		try {
-			db = new PostgresDb();
-			db.startUp(args[0], args[1], args[2]);
+        LocalPostgresDb db = null;
+        try {
+            db = new LocalPostgresDb();
+            db.startUpLocal(args[0], args[1], args[2]);
 
 			FbThreadIterator threads = new FbMessagesParser(Arrays.asList("niki nagy")).iterator();
 
