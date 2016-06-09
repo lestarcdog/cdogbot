@@ -36,6 +36,7 @@ public class RestResponse {
 
         Response response = target.request(MediaType.APPLICATION_JSON_TYPE).buildPost(Entity.json(payload)).invoke();
         log.debug("Reply was processed {}", response.getStatus());
+        response.close();
     }
 
 
