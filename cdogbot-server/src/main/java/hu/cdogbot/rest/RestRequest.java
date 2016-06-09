@@ -1,5 +1,7 @@
 package hu.cdogbot.rest;
 
+import hu.cdogbot.db.ParameterDao;
+import hu.cdogbot.db.ParameterType;
 import hu.cdogbot.logic.DialogControl;
 import hu.cdogbot.model.FacebookMessaging;
 import hu.cdogbot.model.FacebookReceive;
@@ -20,17 +22,20 @@ import java.util.List;
 public class RestRequest {
     private static final Logger log = LoggerFactory.getLogger(RestRequest.class);
 
-	private static final String SECURITY_TOKEN = "this-is-for-the-niki";
 
     @Inject
     DialogControl dialog;
+
+    @Inject
+    ParameterDao parameterDao;
 
 	@GET
 	public String request(@Context HttpServletRequest request) {
         log.debug("{}", request.getParameterMap());
         String verifyToken = request.getParameter("hub.verify_token");
-		if (verifyToken != null && verifyToken.equals(SECURITY_TOKEN)) {
-			String challange = request.getParameter("hub.challenge");
+        String webhookToken = parameterDao.getParameter(ParameterType.WEBHOOK_TOKEN);
+        if (verifyToken != null && verifyToken.equals(webhookToken)) {
+            String challange = request.getParameter("hub.challenge");
 			return challange;
 		} else {
 			return "Not this time. Bitch";

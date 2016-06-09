@@ -19,22 +19,23 @@ public abstract class AbstractPostgresDb implements ICdogbotDb {
 
     @Override
     public Optional<List<String>> findResponse(String rawQuestion, Connection connection) throws SQLException {
-        log.info("Find response for '{}'", rawQuestion);
+        log.debug("Find response for '{}'", rawQuestion);
         String question = parseToTsVectorOr(rawQuestion);
 
-        PreparedStatement stmt = connection.prepareStatement(FIND_RESPONSE);
-        stmt.setString(1, question);
-        stmt.setString(2, question);
+        try (PreparedStatement stmt = connection.prepareStatement(FIND_RESPONSE)) {
+            stmt.setString(1, question);
+            stmt.setString(2, question);
 
-        ResultSet resultSet = stmt.executeQuery();
-        List<String> answers = new ArrayList<>();
-        while (resultSet.next()) {
-            answers.add(resultSet.getString("response"));
-        }
-        if (answers.isEmpty()) {
-            return Optional.empty();
-        } else {
-            return Optional.of(answers);
+            ResultSet resultSet = stmt.executeQuery();
+            List<String> answers = new ArrayList<>();
+            while (resultSet.next()) {
+                answers.add(resultSet.getString("response"));
+            }
+            if (answers.isEmpty()) {
+                return Optional.empty();
+            } else {
+                return Optional.of(answers);
+            }
         }
     }
 

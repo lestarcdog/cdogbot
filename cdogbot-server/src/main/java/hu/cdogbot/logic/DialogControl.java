@@ -26,12 +26,16 @@ public class DialogControl {
     RestResponse responseSender;
 
     public void userSaid(List<FacebookMessaging> messagings) {
-        log.debug("#{} messages from {}", messagings.size(), messagings.get(0).getSender().getId());
-        String senderId = messagings.get(0).getSender().getId();
-        String utterance = messagings.get(0).getMessage().getText();
-        String response = searchForResponse(utterance);
-        log.debug("For '{}' csaba replied '{}'", utterance, response);
-        responseSender.sendResponseToUser(senderId, response);
+        if (messagings.size() > 0) {
+            log.debug("#{} messages from {}", messagings.size(), messagings.get(0).getSender().getId());
+            String senderId = messagings.get(0).getSender().getId();
+            String utterance = messagings.get(0).getMessage().getText();
+            String response = searchForResponse(utterance);
+            log.debug("For '{}' csaba replied '{}'", utterance, response);
+            responseSender.sendResponseToUser(senderId, response);
+        } else {
+            log.warn("No message received only {}", messagings);
+        }
     }
 
 

@@ -22,6 +22,13 @@ public class FacebookReply {
         public String getId() {
             return id;
         }
+
+        @Override
+        public String toString() {
+            return "Recipient{" +
+                "id='" + id + '\'' +
+                '}';
+        }
     }
 
     public class Message {
@@ -34,14 +41,28 @@ public class FacebookReply {
         public String getText() {
             return text;
         }
+
+        @Override
+        public String toString() {
+            return "Message{" +
+                "text='" + text + '\'' +
+                '}';
+        }
     }
 
     public Recipient getRecipient() {
         return recipient;
-
     }
-
     public Message getMessage() {
         return message;
+    }
+
+
+    @Override
+    public String toString() {
+        return "FacebookReply{" +
+            "recipient=" + recipient +
+            ", message=" + message +
+            '}';
     }
 }
