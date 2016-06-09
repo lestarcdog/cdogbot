@@ -12,24 +12,33 @@ public class FacebookReply {
         this.message = new Message(text);
     }
 
-    private class Recipient {
+    public class Recipient {
         private final String id;
 
         public Recipient(String id) {
             this.id = id;
         }
+
+        public String getId() {
+            return id;
+        }
     }
 
-    private class Message {
+    public class Message {
         private final String text;
 
         public Message(String text) {
             this.text = text;
         }
+
+        public String getText() {
+            return text;
+        }
     }
 
     public Recipient getRecipient() {
         return recipient;
+
     }
 
     public Message getMessage() {
