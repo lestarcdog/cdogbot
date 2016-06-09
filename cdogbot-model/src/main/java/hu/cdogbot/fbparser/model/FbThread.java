@@ -15,10 +15,9 @@ public class FbThread implements Iterable<FbMessage> {
 
 	private static final String TZ_END1 = " UTC+02";
 	private static final String TZ_END2 = " UTC+01";
-	private final List<String> parties;
+    private final List<FbMessage> fbMessages = new LinkedList<>();
+    private final List<String> parties;
 	private final Element thread;
-
-	private List<FbMessage> fbMessages = new LinkedList<>();
 
 	public FbThread(Element element) {
 		this.parties = extractThreadParties(element.toString());

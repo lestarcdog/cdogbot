@@ -26,10 +26,10 @@ public class Main {
 			IdSequence seq = new IdSequence();
 			while (threads.hasNext()) {
 				FbThread thread = threads.next();
-				new DialogChainer(seq, thread, db).persistRequestReply();;
-			}
-			
-		} finally {
+                new DialogChainer(seq, thread, db).persistRequestReply();
+            }
+
+        } finally {
 			db.commit();
 			if (db != null) {
 				db.tearDown();

@@ -31,13 +31,12 @@ public class RestRequest {
 
 	@GET
 	public String request(@Context HttpServletRequest request) {
-        log.debug("{}", request.getParameterMap());
+        log.info("{}", request.getParameterMap());
         String verifyToken = request.getParameter("hub.verify_token");
         String webhookToken = parameterDao.getParameter(ParameterType.WEBHOOK_TOKEN);
         if (verifyToken != null && verifyToken.equals(webhookToken)) {
-            String challange = request.getParameter("hub.challenge");
-			return challange;
-		} else {
+            return request.getParameter("hub.challenge");
+        } else {
 			return "Not this time. Bitch";
 		}
 	}

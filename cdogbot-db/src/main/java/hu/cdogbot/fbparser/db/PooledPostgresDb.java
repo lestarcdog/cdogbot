@@ -25,12 +25,8 @@ public class PooledPostgresDb extends AbstractPostgresDb {
     }
 
     public Optional<List<String>> findResponse(String rawQuestion) throws SQLException {
-        Connection connection = ds.getConnection();
-        ;
-        try {
+        try (Connection connection = ds.getConnection()) {
             return super.findResponse(rawQuestion, connection);
-        } finally {
-            connection.close();
         }
     }
 

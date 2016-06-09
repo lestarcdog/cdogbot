@@ -12,11 +12,11 @@ import java.util.Optional;
  */
 public interface ICdogbotDb {
 
-    static final String INSERT_FB_MESSAGE = "INSERT INTO " +
+    String INSERT_FB_MESSAGE = "INSERT INTO " +
         " chat(id, message, keyword, sender, is_sender_me, sent_time, next_message_id) " +
         "VALUES(?,?,?::tsvector,?,?,?,?)";
 
-    static final String FIND_RESPONSE = "SELECT ts_rank(c.keyword,?::tsquery,1) rank, c.next_message_id responseId, resp.message response, c.message message "
+    String FIND_RESPONSE = "SELECT ts_rank(c.keyword,?::tsquery,1) rank, c.next_message_id responseId, resp.message response, c.message message "
         + " FROM chat c, chat resp " //
         + " WHERE c.is_sender_me = FALSE " // not said by me
         + " AND c.keyword @@ ?::tsquery " //
