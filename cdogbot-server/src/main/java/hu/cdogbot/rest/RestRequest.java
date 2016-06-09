@@ -27,8 +27,8 @@ public class RestRequest {
 
 	@GET
 	public String request(@Context HttpServletRequest request) {
-		log.info("{}", request.getParameterMap());
-		String verifyToken = request.getParameter("hub.verify_token");
+        log.debug("{}", request.getParameterMap());
+        String verifyToken = request.getParameter("hub.verify_token");
 		if (verifyToken != null && verifyToken.equals(SECURITY_TOKEN)) {
 			String challange = request.getParameter("hub.challenge");
 			return challange;
@@ -40,8 +40,8 @@ public class RestRequest {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void receiveMessage(FacebookReceive receive) {
-		log.info("{}", receive);
-		List<FacebookMessaging> messaging = receive.getEntry().get(0).getMessaging();
+        log.debug("{}", receive);
+        List<FacebookMessaging> messaging = receive.getEntry().get(0).getMessaging();
         dialog.userSaid(messaging);
     }
 }

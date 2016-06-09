@@ -28,5 +28,11 @@ public class FacebookReply {
         }
     }
 
+    public Recipient getRecipient() {
+        return recipient;
+    }
 
+    public Message getMessage() {
+        return message;
+    }
 }

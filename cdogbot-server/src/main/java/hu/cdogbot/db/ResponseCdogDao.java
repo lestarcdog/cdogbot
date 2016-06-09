@@ -10,9 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by cdog on 2016.06.08..
- */
+
 @Stateless
 public class ResponseCdogDao {
 
