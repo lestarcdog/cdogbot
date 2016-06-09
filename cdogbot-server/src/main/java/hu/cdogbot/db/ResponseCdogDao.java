@@ -16,7 +16,7 @@ import java.util.Optional;
 @Stateless
 public class ResponseCdogDao {
 
-    @Resource(name = CdogBot.CDOGBOT_DS)
+    @Resource(mappedName = CdogBot.CDOGBOT_DS)
     DataSource cdogbotDs;
 
     public Optional<List<String>> findResponse(String utterance) throws SQLException {
