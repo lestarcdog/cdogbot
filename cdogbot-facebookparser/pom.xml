@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>cdogbot-facebookparser</groupId>
 	<artifactId>cdogbot-facebookparser</artifactId>
-	<name>cdogbot -facebookparser</name>
+    <name>cdogbot - facebookparser</name>
 	<description>parsers the facebook messages to the postgersql db</description>
 
 	<dependencies>

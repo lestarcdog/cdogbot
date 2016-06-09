@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>cdogbot-db</artifactId>
+    <name>cdogbot - db</name>
 
     <dependencies>
         <dependency>

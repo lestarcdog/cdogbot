@@ -9,7 +9,7 @@
     <groupId>cdogbot-server</groupId>
     <artifactId>cdogbot-server</artifactId>
     <packaging>war</packaging>
-    <name>cdogbot server</name>
+    <name>cdogbot - server</name>
 
     <dependencies>
         <dependency>

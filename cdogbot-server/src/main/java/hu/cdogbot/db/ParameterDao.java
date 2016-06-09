@@ -24,7 +24,7 @@ public class ParameterDao {
     @Resource(mappedName = CdogBot.CDOGBOT_DS)
     DataSource cdogbotDs;
 
-    private static final String GET_P = "SELECT p.value FROM PARAMETERS WHER p.name = ?";
+    private static final String GET_P = "SELECT p.value FROM PARAMETERS p WHERE p.name = ?";
 
     public String getParameter(ParameterType param) {
         Objects.requireNonNull(param);
