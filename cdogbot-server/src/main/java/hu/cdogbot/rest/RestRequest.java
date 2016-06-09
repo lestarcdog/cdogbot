@@ -14,12 +14,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Path("/webhook")
-public class RestWebhook {
-	private static final Logger log = LoggerFactory.getLogger(RestWebhook.class);
+public class RestRequest {
+    private static final Logger log = LoggerFactory.getLogger(RestRequest.class);
 
 	private static final String SECURITY_TOKEN = "this-is-for-the-niki";
 
@@ -43,11 +42,6 @@ public class RestWebhook {
 	public void receiveMessage(FacebookReceive receive) {
 		log.info("{}", receive);
 		List<FacebookMessaging> messaging = receive.getEntry().get(0).getMessaging();
-		messaging.stream().forEach(m -> {
-			String sender = m.getSender().getId();
-			String text = m.getMessage().getText();
-			LocalDateTime timestamp = m.timestamp();
-			log.info("user {} said {} at {}", sender, text, timestamp);
-		});
-	}
+        dialog.userSaid(messaging);
+    }
 }

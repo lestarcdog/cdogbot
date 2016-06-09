@@ -1,6 +1,8 @@
 package hu.cdogbot.logic;
 
 import hu.cdogbot.db.ResponseCdogDao;
+import hu.cdogbot.model.FacebookMessaging;
+import hu.cdogbot.rest.RestResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,11 +22,23 @@ public class DialogControl {
     @Inject
     ResponseCdogDao responseDao;
 
-    public String userSaid(String utterance) {
-        log.debug("find response to '{}'", utterance);
+    @Inject
+    RestResponse responseSender;
+
+    public void userSaid(List<FacebookMessaging> messagings) {
+        log.debug("#{} messages from {}", messagings.size(), messagings.get(0).getSender().getId());
+        String senderId = messagings.get(0).getSender().getId();
+        String utterance = messagings.get(0).getMessage().getText();
+        String response = searchForResponse(utterance);
+        log.debug("For '{}' csaba replied '{}'", utterance, response);
+        responseSender.sendResponseToUser(senderId, response);
+    }
+
+
+    private String searchForResponse(String utterance) {
         try {
-            Optional<List<String>> response = responseDao.findResponse(utterance);
-            return selectResponse(response);
+            Optional<List<String>> responsesList = responseDao.findResponse(utterance);
+            return selectResponse(responsesList);
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
             return DefaultResponses.selectRandom();
