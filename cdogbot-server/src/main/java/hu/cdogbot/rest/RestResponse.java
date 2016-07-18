@@ -18,9 +18,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-/**
- * Created by cdog on 2016.06.08..
- */
 @Singleton
 public class RestResponse {
 

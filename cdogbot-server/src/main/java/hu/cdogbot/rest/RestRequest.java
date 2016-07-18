@@ -18,7 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/webhook")
+@Path("/")
 public class RestRequest {
     private static final Logger log = LoggerFactory.getLogger(RestRequest.class);
 
@@ -45,7 +45,7 @@ public class RestRequest {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void receiveMessage(FacebookReceive receive) {
         log.debug("{}", receive);
-        List<FacebookMessaging> messaging = receive.getEntry().get(0).getMessaging();
-        dialog.userSaid(messaging);
+//        List<FacebookMessaging> messaging = receive.getEntry().get(0).getMessaging();
+//        dialog.userSaid(messaging);
     }
 }
