@@ -1,6 +1,7 @@
 package hu.cdogbot.logic;
 
 import hu.cdogbot.db.ResponseCdogDao;
+import hu.cdogbot.fbparser.db.RankedResponse;
 import hu.cdogbot.model.FacebookMessaging;
 import hu.cdogbot.rest.RestResponse;
 import org.slf4j.Logger;
@@ -41,7 +42,7 @@ public class DialogControl {
 
     private String searchForResponse(String utterance) {
         try {
-            Optional<List<String>> responsesList = responseDao.findResponse(utterance);
+            Optional<List<RankedResponse>> responsesList = responseDao.findResponse(utterance);
             return selectResponse(responsesList);
         } catch (SQLException e) {
             log.error(e.getMessage(), e);
@@ -50,10 +51,10 @@ public class DialogControl {
     }
 
 
-    private String selectResponse(Optional<List<String>> responses) {
+    private String selectResponse(Optional<List<RankedResponse>> responses) {
         if (responses.isPresent()) {
-            List<String> list = responses.get();
-            return list.get(RAND.nextInt(list.size()));
+            List<RankedResponse> list = responses.get();
+            return list.get(RAND.nextInt(list.size())).getResponse();
         } else {
             return DefaultResponses.selectRandom();
         }

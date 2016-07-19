@@ -46,6 +46,10 @@ public class RestRequest {
 	public void receiveMessage(FacebookReceive receive) {
         log.debug("{}", receive);
         List<FacebookMessaging> messaging = receive.getEntry().get(0).getMessaging();
-        dialog.userSaid(messaging);
+        if(messaging != null) {
+            dialog.userSaid(messaging);
+        } else {
+            log.info("Can't process. Only messagings.");
+        }
     }
 }

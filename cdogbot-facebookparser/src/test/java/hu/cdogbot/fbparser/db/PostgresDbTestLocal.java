@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-public class PostgresDbTest {
+public class PostgresDbTestLocal {
 
 	@Test
 	public void test() throws SQLException {

@@ -2,6 +2,7 @@ package hu.cdogbot.db;
 
 import hu.cdogbot.CdogBot;
 import hu.cdogbot.fbparser.db.PooledPostgresDb;
+import hu.cdogbot.fbparser.db.RankedResponse;
 
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
@@ -17,7 +18,7 @@ public class ResponseCdogDao {
     @Resource(mappedName = CdogBot.CDOGBOT_DS)
     DataSource cdogbotDs;
 
-    public Optional<List<String>> findResponse(String utterance) throws SQLException {
+    public Optional<List<RankedResponse>> findResponse(String utterance) throws SQLException {
         PooledPostgresDb ds = new PooledPostgresDb(cdogbotDs);
         return ds.findResponse(utterance);
     }

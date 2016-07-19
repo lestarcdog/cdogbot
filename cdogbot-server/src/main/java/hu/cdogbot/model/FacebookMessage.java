@@ -8,7 +8,17 @@ public class FacebookMessage {
 	private Long seq;
 	private String text;
 
-	public String getMid() {
+    public FacebookMessage() {
+
+    }
+
+    public FacebookMessage(String mid, Long seq, String text) {
+        this.mid = mid;
+        this.seq = seq;
+        this.text = text;
+    }
+
+    public String getMid() {
 		return mid;
 	}
 

@@ -39,7 +39,7 @@ public class LocalPostgresDb extends AbstractPostgresDb {
     }
 
 
-    public Optional<List<String>> findResponse(String rawQuestion) throws SQLException {
+    public Optional<List<RankedResponse>> findResponse(String rawQuestion) throws SQLException {
         return super.findResponse(rawQuestion, connection);
     }
 
@@ -52,7 +52,7 @@ public class LocalPostgresDb extends AbstractPostgresDb {
     }
 
     public void tearDown() throws SQLException {
-        log.info("Tear down postgrs db");
+        log.info("Tear down postgres db");
         if (connection != null && connection.isClosed()) {
             connection.close();
         }

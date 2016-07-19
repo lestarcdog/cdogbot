@@ -24,7 +24,7 @@ public class PooledPostgresDb extends AbstractPostgresDb {
         throw new UnsupportedOperationException("This is not for you server you only read.");
     }
 
-    public Optional<List<String>> findResponse(String rawQuestion) throws SQLException {
+    public Optional<List<RankedResponse>> findResponse(String rawQuestion) throws SQLException {
         try (Connection connection = ds.getConnection()) {
             return super.findResponse(rawQuestion, connection);
         }

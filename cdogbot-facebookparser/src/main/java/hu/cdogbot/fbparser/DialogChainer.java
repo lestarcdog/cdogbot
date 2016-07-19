@@ -18,13 +18,15 @@ public class DialogChainer {
 	private static final Logger log = LoggerFactory.getLogger(DialogChainer.class);
 	
 	private final FbThread thread;
+    private final Long threadId;
     private final LocalPostgresDb db;
-    private final IdSequence seq;
+    private final IdSequence messageid;
 
-    public DialogChainer(IdSequence seq, FbThread thread, LocalPostgresDb db) {
+    public DialogChainer(IdSequence messageId,Long threadId, FbThread thread, LocalPostgresDb db) {
         this.thread = thread;
 		this.db = db;
-		this.seq = seq;
+        this.threadId = threadId;
+		this.messageid = messageId;
 		log.info("Parsing thread {}", thread.getParties());
 		
 	}
@@ -35,7 +37,8 @@ public class DialogChainer {
 		List<FbMessage> groupedMessages = groupMessages(it);
 		if(!groupedMessages.isEmpty()) {
 			List<FbMessage> chainedMessages = chainMessages(groupedMessages);
-			//reverse insert chain messages because of foreign key constraints
+
+            //reverse insert chain messages because of foreign key constraints
 			for (int i = chainedMessages.size() - 1; i>=0; i--) {
 				db.save(chainedMessages.get(i));
 			}
@@ -45,11 +48,11 @@ public class DialogChainer {
 	private List<FbMessage> chainMessages(List<FbMessage> messages) {
 		Iterator<FbMessage> it = messages.iterator();
 		FbMessage prev = it.next();
-		prev.setId(seq.next());
+		prev.setId(messageid.next());
 		
 		while(it.hasNext()) {
 			FbMessage current = it.next();
-			current.setId(seq.next());
+			current.setId(messageid.next());
 			prev.setNextMessageId(current.getId());
 			
 			prev = current;
@@ -110,6 +113,7 @@ public class DialogChainer {
 		
 		FbMessage grouped = new FbMessage(groupedMessages.get(0).getSender(), groupedMessages.get(0).getTimestamp(),rawMsg.toString(), processedMsg.toString());
 		grouped.setId(groupedMessages.get(0).getId());
+        grouped.setThreadId(threadId);
 		
 		return grouped;
 	}

@@ -12,6 +12,7 @@ public class FbMessage {
 	}
 
 	private Long id;
+    private Long threadId;
 	private final String sender;
 	private final boolean senderMe;
 	private final LocalDateTime timestamp;
@@ -69,4 +70,11 @@ public class FbMessage {
 		return processedMessage;
 	}
 
+    public Long getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(Long threadId) {
+        this.threadId = threadId;
+    }
 }

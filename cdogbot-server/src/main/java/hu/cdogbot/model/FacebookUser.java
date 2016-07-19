@@ -6,7 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class FacebookUser {
 	private String id;
 
-	public String getId() {
+    public FacebookUser() {}
+
+    public FacebookUser(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
 		return id;
 	}
 

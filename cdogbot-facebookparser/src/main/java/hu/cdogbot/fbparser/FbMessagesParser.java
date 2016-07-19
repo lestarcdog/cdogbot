@@ -18,10 +18,10 @@ public class FbMessagesParser {
     private final FbThreadIterator iterator;
     private final List<String> senders;
 
-	public FbMessagesParser(List<String> senders) throws IOException {
+	public FbMessagesParser(String htmlPath,List<String> senders) throws IOException {
 		this.senders = senders;
-		log.info("Start parsing {}", Config.MESSAGES_HTML_PATH);
-        Document soup = Jsoup.parse(new File(Config.MESSAGES_HTML_PATH), "UTF-8");
+		log.info("Start parsing {}", htmlPath);
+        Document soup = Jsoup.parse(new File(htmlPath), "UTF-8");
         log.info("Parsed the html");
 		Elements threads = soup.select(".thread");
 		iterator = new FbThreadIterator(threads);
