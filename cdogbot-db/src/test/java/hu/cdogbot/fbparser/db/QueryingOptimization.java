@@ -16,9 +16,9 @@ public class QueryingOptimization {
     public void queryDb() throws SQLException {
         LocalPostgresDb db = new LocalPostgresDb();
         db.startUpLocal("jdbc:postgresql://localhost:5432/cdogbot","postgres","postgres");
-        Optional<List<RankedResponse>> resp = db.findResponse("szia");
+        Optional<List<RankedResponse>> resp = db.findResponse("drágám");
 
-        System.out.println(resp.get());
+        resp.get().forEach(System.out::println);
 
     }
 

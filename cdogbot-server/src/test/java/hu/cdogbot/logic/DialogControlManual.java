@@ -34,7 +34,7 @@ public class DialogControlManual {
         dc.responseSender = new LoggerResponseSender();
 
 
-        String text = "szia";
+        String text = "hogy vagy?";
 
         FacebookMessaging messaging = new FacebookMessaging();
         messaging.setSender(new FacebookUser("cdog"));

@@ -43,6 +43,7 @@ public abstract class AbstractPostgresDb implements ICdogbotDb {
                     resultSet.getDouble("rank"),
                     resultSet.getLong("messageId"),
                     resultSet.getLong("responseId"),
+                    resultSet.getString("message"),
                     resultSet.getString("response"))
                 );
             }
